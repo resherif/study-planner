@@ -14,13 +14,41 @@ const ICONS = {
 //loading from the localstorage 
 document.addEventListener('DOMContentLoaded',()=>{
     const savedTasks = localStorage.getItem('myTasks')
+    
     if(!savedTasks) return;
     const tasks = JSON.parse(savedTasks);
-    tasks.forEach(task => { renderTaskCard(task)
-        
+    const newestTasks = [...tasks].reverse().slice(0,3);
+    newestTasks.forEach(task => { renderTaskCard(task)
+    seemoreBtn()
     });
+   
 })
 
+function loadingDashboard(){
+    const container = document.getElementById('task-container');
+    const seeMoreBtn = document.getElementById('see-more-link');
+    
+    container.innerHTML = ''; 
+
+    
+    const tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
+
+   
+    [...tasks].reverse().slice(0, 3).forEach(task => renderTaskCard(task));
+
+    // Show/Hide "See More" button
+    if (seeMoreBtn) {
+        seeMoreBtn.style.display = tasks.length > 3 ? 'block' : 'none';
+    }
+}
+
+function seemoreBtn(){
+    const tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
+    const seeMoreBtn = document.getElementById('see-more-link');
+    if (seeMoreBtn) {
+        seeMoreBtn.style.display = tasks.length > 3 ? 'block' : 'none';
+    }
+}
 
 function renderTaskCard(task) {
     const container = document.getElementById('task-container');
@@ -34,10 +62,8 @@ function renderTaskCard(task) {
                     </div>
                 </div>
                 <h1 class="mt-1 mb-3">${task.value}</h1>
-                <div class="mb-0">
-                    <span class="text-success">Active</span>
-                    
-                    <button class="btn  float-end text-danger" onclick="deleteTask(${task.id})" class="btn text-danger">
+                <div class="mb-0">    
+                    <button class="btn  float-end text-danger" onclick="deleteTask(${task.id})" class="btn">
                     ${ICONS.trash} 
                 </button>
                 </div>
@@ -55,10 +81,7 @@ function deleteTask(id) {
     tasks = tasks.filter(t => t.id !== id);
     localStorage.setItem('myTasks', JSON.stringify(tasks));
 
-    const taskElemnt =document.getElementById(`task-${id}`)
-   if (taskElemnt) {
-        taskElemnt.remove();
-    }
+   loadingDashboard()
 }
 
 
@@ -73,7 +96,7 @@ function handleSave() {
     const title = document.getElementById('task-input').value;
     const value = document.getElementById('value-input').value;
 
-    if (title && value) {
+    if (title) {
         //creting an id and save to the localstorage
         const task = { id: Date.now(), title, value };
         
@@ -81,14 +104,22 @@ function handleSave() {
         tasks.push(task);
         localStorage.setItem('myTasks', JSON.stringify(tasks));
 
-        renderTaskCard(task);
-        
+       loadingDashboard()
+        const container = document.getElementById('task-container');
+        if (container.children.length > 3) {
+            container.removeChild(container.firstChild); // Removes the top card
+        }
         //clear the windo
         document.getElementById('task-input').value = '';
-        document.getElementById('value-input').value = '';
+        // document.getElementById('value-input').value = '';
         togglePopup();
     } else {
         alert("Please fill in both fields!");
     }
 }
 
+function goToPlanner() {
+    window.location.href = "index.html";
+
+   
+}

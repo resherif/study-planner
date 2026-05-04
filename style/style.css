@@ -1,10 +1,9 @@
-/* 1. Global Themes - Using your calendar colors */
 :root {
     --main-blue: #2b4450;
     --accent-orange: #f78536;
     --bg-light: #f4f7f6;
-     --cal-bg: #2b4450;       /* Your Dark Blue */
-    --cal-accent: #f78536;   /* Your Orange */
+    --cal-bg: #2b4450;       
+    --cal-accent: #f78536;   
     --cal-text: #ffffff;
     --cal-muted: rgba(255, 255, 255, 0.4);
 
@@ -15,7 +14,7 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
-/* 2. Sidebar - Matching your dark blue vibe */
+/* 2. Sidebar  */
 .bg-dark-blue {
     background-color: var(--main-blue);
     width: 260px;
@@ -27,7 +26,7 @@ body {
     border-left: 4px solid var(--accent-orange);
 }
 
-/* 3. Task Cards - Custom styling */
+/* 3. Task Cards  */
 .card {
     border-radius: 12px;
 }
@@ -40,7 +39,7 @@ body {
     border-left: 5px solid var(--main-blue); /* Visual cue */
 }
 
-/* 4. Pop-up Overlay (Blur Effect) */
+/* 4. Pop-up windo */
 .modal-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -55,22 +54,22 @@ body {
 .modal-overlay.active { display: flex; }
 
 .custom-popup {
-    background: white;
+    background-color: var(--main-blue);
+    color: white;
     padding: 30px;
     border-radius: 15px;
     width: 100%;
-    max-width: 400px;
+    max-width: 600px;
 }
 
 /* 5. Calendar */
 
-/*  */
-
 .calendar-card {
+    background-color:var(--main-blue) ;
+    color: white;
     width: 100%;
-    background: rgba(238, 91, 91, 0.1);
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    /* box-shadow: 0 4px 15px rgba(0,0,0,0.1); */
     padding: 20px;
     transition: transform 0.6s;
     /* user-select: none; */
@@ -92,7 +91,7 @@ body {
 .day-headers span {
     font-weight: bold;
     font-size: 0.8rem;
-    color: #888;
+    color:white;
     padding-bottom: 10px;
 }
 
@@ -102,30 +101,38 @@ body {
     border-radius: 5px;
     font-size: 0.9rem;
 }
+#prevMonth,#nextMonth{
+background-color: var(--main-blue);
+border: none;
+color: white;
+font-size: large;
+
+}
 
 #weeks-grid span:hover {
-    background: #f0f0f0;
+    background: var(--cal-accent);
 }
 
 #weeks-grid span.active {
-    background: #007bff;
-    color: white;
+    background: var(--accent-orange);
 }
 
-#weeks-grid span.last-month {
-    visibility: hidden; /* Or color: #ccc to show them greyed out */
-}
+/* #weeks-grid span.last-month {
+    visibility: hidden; 
+} */
 
 /* Flip animation class */
-.calendar-card.flip {
+
+/* .calendar-card.flip {
     transform: rotateY(180deg);
-}
+} */
 
 /* Dates from other months */
-.weeks span.last-month, 
+
+/* .weeks span.last-month, 
 .weeks span.next-month {
     color: var(--cal-muted);
-}
+} */
 
 /* Study Event Indicator */
 .event-dot {
@@ -157,12 +164,12 @@ body {
     transition: transform 0.2s ease;
 }
 
-.task-card:hover {
+/* .task-card:hover {
     transform: translateY(-5px);
-}
+} */
 
 .text-primary-color {
-    color: #f78536; /* Your Orange Accent */
+    color: #f78536; 
 }
 
 /* Custom Delete Button */
@@ -190,4 +197,24 @@ body {
 .sidebar .nav-link.active {
     background: rgba(255, 255, 255, 0.1);
     border-left: 4px solid #f78536; /* Your orange */
+}
+
+/* go to study planner page*/
+.btn-primary,.btn  {
+    background-color: var(--accent-orange);
+    color: white;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 50px; /* Rounded pill shape */
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(247, 133, 54, 0.3);
+}
+
+.btn-primary:hover {
+    background-color: #d66f28; /* Darker orange */
+    transform: scale(1.05); /* Slight grow effect */
+    box-shadow: 0 6px 20px rgba(247, 133, 54, 0.4);
 }

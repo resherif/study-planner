@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Planner | Dashboard</title>
+    <link rel="stylesheet" href="style/style.css">
+    <style>
+        /* Specific landing page layout */
+        .landing-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: var(--bg-light);
+        }
+    </style>
+</head>
+<body>
+   <div class="landing-container">
+        <h1 style="color: var(--main-blue); font-size: 3rem;">Ready to Study?</h1>
+        <p style="color: #666; font-size: 1.2rem; margin-bottom: 30px;">
+            Your personal task management space is waiting.....
+        </p>
+        
+        <button class="btn btn-primary btn-lg" onclick="goToPlanner()">
+            Go to Study Planner
+        </button>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -36,16 +36,20 @@
                 <h1 class="h3 mb-4 fw-bold">Hello, <span class="text-primary">userName</span></h1>
 
                 <div class="row">
-                    <div class="col-xl-8 col-lg-7">
-                        <div class="card border-0 shadow-sm mb-4">
+                    <div class="col-xl-8 col-lg-7 ">
+                        <div class=" border-0  mb-3">
                             <div class="card-body">
-                                <button class="btn btn-success fw-bold px-4" onclick="togglePopup()">+</button>
+                                <button class="btn btn fw-bold px-4" onclick="togglePopup()">+</button>
                               <!--see more btn-->  
-                              <a href="all Tasks.html" id="see-more-link" class="btn btn-link text-decoration-none mt-1" style="display:none;">See More Tasks...</a>
                             </div>
+                           
                         </div>
-                        <div id="task-container"></div>
+                        <div id="task-container"></div> 
+                                                      <a href="all Tasks.html" id="see-more-link" class=" text-decoration-none mt-1" style="display:none;">See More Tasks...</a>
+
                     </div>
+
+
                     <!---calendar-->
                 <div class="col-xl-4 col-lg-5"> 
 
@@ -55,9 +59,9 @@
          <div id="calendar" class="calendar-card">
     <div class="calendar-front">
         <div class="calendar-header">
-            <button id="prevMonth">&lt;</button>
+            <button id="prevMonth"><</button>
             <h2 id="display-month"></h2>
-            <button id="nextMonth">&gt;</button>
+            <button id="nextMonth">></button>
         </div>
         
         <div class="day-headers">
@@ -70,8 +74,6 @@
         </div>
             </div>
                 </div>
-
-
                     </div>
                     <!---end-calendar-->
                 </div>
