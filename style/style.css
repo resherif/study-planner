@@ -18,7 +18,7 @@ body {
 .bg-dark-blue {
     background-color: var(--main-blue);
     width: 260px;
-    min-height: 100vh;
+   
 }
 
 .sidebar .nav-link.active {
@@ -70,7 +70,7 @@ body {
     width: 100%;
     border-radius: 10px;
     /* box-shadow: 0 4px 15px rgba(0,0,0,0.1); */
-    padding: 20px;
+    padding: 10px;
     transition: transform 0.6s;
     /* user-select: none; */
 }
@@ -79,7 +79,6 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
 }
 
 .day-headers, #weeks-grid {
@@ -88,12 +87,6 @@ body {
     text-align: center;
 }
 
-.day-headers span {
-    font-weight: bold;
-    font-size: 0.8rem;
-    color:white;
-    padding-bottom: 10px;
-}
 
 #weeks-grid span {
     padding: 10px 0;
@@ -101,6 +94,7 @@ body {
     border-radius: 5px;
     font-size: 0.9rem;
 }
+
 #prevMonth,#nextMonth{
 background-color: var(--main-blue);
 border: none;
@@ -117,45 +111,69 @@ font-size: large;
     background: var(--accent-orange);
 }
 
-/* #weeks-grid span.last-month {
-    visibility: hidden; 
-} */
 
-/* Flip animation class */
 
-/* .calendar-card.flip {
-    transform: rotateY(180deg);
-} */
 
-/* Dates from other months */
-
-/* .weeks span.last-month, 
-.weeks span.next-month {
-    color: var(--cal-muted);
-} */
-
-/* Study Event Indicator */
-.event-dot {
-    position: relative;
+/* Navbar */
+.top-navbar {
+    background: white;
+    border-bottom: 1px solid #e9ecef;
 }
 
-.event-dot::after {
-    content: '';
-    position: absolute;
-    bottom: 4px;
-    width: 4px;
-    height: 4px;
-    background: var(--cal-accent);
-    border-radius: 50%;
+/* Toggle Button */
+.sidebar-toggle {
+    border: none;
+    background: transparent;
+    font-size: 28px;
+    color: var(--main-blue);
 }
-/* Sidebar sizing */
-.sidebar {
-    width: 260px;
-    min-width: 260px;
-    min-height: 100vh;
-    background-color: #2b4450; /* Your Dark Blue */
-    position: sticky;
-    top: 0;
+
+/* Links */
+.sidebar .nav-link,
+.offcanvas .nav-link {
+    padding: 12px 15px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.sidebar .nav-link:hover,
+.offcanvas .nav-link:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+/* Active Link */
+.sidebar .nav-link.active,
+.offcanvas .nav-link.active {
+    background: rgba(255,255,255,0.1);
+    border-left: 4px solid var(--accent-orange);
+}
+
+/* Main Content */
+.main {
+    width: 100%;
+}
+
+/*navbar*/
+
+/* Top Navbar */
+.top-navbar {
+    background: white;
+    border-bottom: 1px solid #e9ecef;
+}
+
+/* Toggle Button */
+.sidebar-toggle {
+    border: none;
+    background: transparent;
+    font-size: 28px;
+    color: #2b4450;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.sidebar-toggle:hover {
+    color: #f78536;
+    transform: scale(1.1);
 }
 
 /* Task Card Design */

@@ -52,26 +52,31 @@ function seemoreBtn(){
 
 function renderTaskCard(task) {
     const container = document.getElementById('task-container');
-    //my card
     const html = `
-        <div class="card mb-3 shadow-sm border-0" id="task-${task.id}">
+        <div class="card mb-3 shadow-sm border-0 task-card" 
+             id="task-${task.id}" 
+             onclick="selectSubject('${task.title}')" 
+             style="cursor: pointer; transition: 0.3s;">
             <div class="card-body">
-                <div class="row">
-                    <div class="col mt-0"><h5 class="card-title">${task.title}</h5></div>
+                <div class="row align-items-center">
+                    <div class="col">
+                        <small class="text-primary-color fw-bold">Subject</small>
+                        <h5 class="card-title fw-bold mb-0">${task.title}</h5>
+                    </div>
                     <div class="col-auto">
+                         <i class="bi bi-play-fill fs-3 text-primary-color"></i>
                     </div>
                 </div>
-                <h1 class="mt-1 mb-3">${task.value}</h1>
-                <div class="mb-0">    
-                    <button class="btn  float-end text-danger" onclick="deleteTask(${task.id})" class="btn">
-                    ${ICONS.trash} 
-                </button>
+                <div class="mt-2 d-flex justify-content-between align-items-center">
+                    <span class="badge bg-light text-dark">${task.value} Hours Goal</span>
+                    <button class="btn btn-link text-danger p-0" onclick="event.stopPropagation(); deleteTask(${task.id})">
+                        ${ICONS.trash} 
+                    </button>
                 </div>
             </div>
         </div>`;
 
     container.insertAdjacentHTML('afterbegin', html);
-    
 }
 
 
@@ -93,28 +98,25 @@ function togglePopup() {
 
 
 function handleSave() {
-    const title = document.getElementById('task-input').value;
-    const value = document.getElementById('value-input').value;
+    const title = document.getElementById('subject-input').value;
+    const value = document.getElementById('goal-input').value;
 
-    if (title) {
-        //creting an id and save to the localstorage
+    if (title && value) {
         const task = { id: Date.now(), title, value };
         
         const tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
         tasks.push(task);
         localStorage.setItem('myTasks', JSON.stringify(tasks));
 
-       loadingDashboard()
-        const container = document.getElementById('task-container');
-        if (container.children.length > 3) {
-            container.removeChild(container.firstChild); // Removes the top card
-        }
-        //clear the windo
-        document.getElementById('task-input').value = '';
-        // document.getElementById('value-input').value = '';
+        
+        loadingDashboard();
+        
+       //clear the pop windo
+        document.getElementById('subject-input').value = '';
+        document.getElementById('goal-input').value = '';
         togglePopup();
     } else {
-        alert("Please fill in both fields!");
+        alert("Please enter both the Subject and the Hour Goal!");
     }
 }
 
@@ -122,4 +124,52 @@ function goToPlanner() {
     window.location.href = "index.html";
 
    
+}
+
+
+
+let timerInterval = null;
+let secondsElapsed = 0;
+
+function selectSubject(subjectName) {
+    
+    const activeSubjectName = document.querySelector('.card-body.text-center p.fw-bold');
+    const statusText = document.querySelector('.card-body.text-center .text-muted.mb-4');
+    
+    if (activeSubjectName) activeSubjectName.innerText = subjectName;
+
+    
+    startTimer();
+}
+
+function startTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
+    
+    totalSeconds = 0; 
+
+    timerInterval = setInterval(() => {
+        totalSeconds++;
+
+        const hrs = Math.floor(totalSeconds / 3600);
+        const mins = Math.floor((totalSeconds % 3600) / 60);
+        const secs = totalSeconds % 60;
+
+        const timerDisplay = document.getElementById('timer-display');
+        if (timerDisplay) {
+            timerDisplay.innerText = 
+                `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+    }, 1000);
+}
+
+function pauseTimer() {
+    clearInterval(timerInterval);
+}
+
+function stopTimer() {
+    clearInterval(timerInterval);
+    totalSeconds = 0;
+    document.getElementById('timer-display').innerText = "00:00:00";
 }
