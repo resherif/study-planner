@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 function loadingDashboard(){
     const container = document.getElementById('task-container');
-    const seeMoreBtn = document.getElementById('see-more-link');
+    const seeMoreBtn = document.getElementById('see-more-btn');
     
     container.innerHTML = ''; 
 
@@ -37,8 +37,14 @@ function loadingDashboard(){
     [...tasks].reverse().slice(0, 3).forEach(task => renderTaskCard(task));
 
     // Show/Hide "See More" button
-    if (seeMoreBtn) {
-        seeMoreBtn.style.display = tasks.length > 3 ? 'block' : 'none';
+if (seeMoreBtn) {
+        if (tasks.length > 3) {
+            seeMoreBtn.classList.remove('d-none');
+            seeMoreBtn.style.display = "block"; // Extra insurance
+        } else {
+            seeMoreBtn.classList.add('d-none');
+            seeMoreBtn.style.display = "none";
+        }
     }
 }
 
@@ -84,9 +90,18 @@ function deleteTask(id) {
     
     let tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
     tasks = tasks.filter(t => t.id !== id);
-    localStorage.setItem('myTasks', JSON.stringify(tasks));
 
-   loadingDashboard()
+    localStorage.setItem('myTasks', JSON.stringify(tasks));
+//checking when we are in the alltask veiw
+   const allTasksView = document.getElementById('view-all-tasks');
+    
+    if (allTasksView && allTasksView.style.display === 'block') {
+        
+        renderFullTaskList(); 
+    } else {
+       
+        loadingDashboard();
+    }
 }
 
 
@@ -172,4 +187,74 @@ function stopTimer() {
     clearInterval(timerInterval);
     totalSeconds = 0;
     document.getElementById('timer-display').innerText = "00:00:00";
+}
+
+
+function showView(viewId) {
+    const dashboard = document.getElementById('view-dashboard');
+    const allTasks = document.getElementById('view-all-tasks');
+const navLinks = document.querySelectorAll('.sidebar .nav-link');
+    if (dashboard && allTasks) {
+        if (viewId === 'view-dashboard') {
+            dashboard.style.display = 'block';
+            allTasks.style.display = 'none';
+            if (typeof loadingDashboard === "function") loadingDashboard();
+        } else {
+            dashboard.style.display = 'none';
+            allTasks.style.display = 'block';
+            if (typeof renderFullTaskList === "function") renderFullTaskList();
+        }
+    }
+
+   if (navLinks.length > 0) {
+        navLinks.forEach(link => {
+            link.classList.add('text-white-50');
+            link.classList.remove('text-white', 'fw-bold');
+            
+            // Check if the link has an onclick attribute before searching it
+            const clickAttr = link.getAttribute('onclick');
+            if (clickAttr && clickAttr.includes(viewId)) {
+                link.classList.remove('text-white-50');
+                link.classList.add('text-white', 'fw-bold');
+            }
+        });
+    }
+}
+
+function renderFullTaskList() {
+    const container = document.getElementById('full-task-list');
+    const tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
+    container.innerHTML = ''; 
+
+    if (tasks.length === 0) {
+        container.innerHTML = '<div class="text-center w-100 mt-5"><h4>No tasks found.</h4></div>';
+        return;
+    }
+
+    [...tasks].reverse().forEach(task => {
+        const cardHtml =  `
+        <div class="card mb-3 shadow-sm border-0 task-card" 
+             id="task-${task.id}" 
+             onclick="selectSubject('${task.title}')" 
+             style="cursor: pointer; transition: 0.3s;">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <small class="text-primary-color fw-bold">Subject</small>
+                        <h5 class="card-title fw-bold mb-0">${task.title}</h5>
+                    </div>
+                    <div class="col-auto">
+                         <i class="bi bi-play-fill fs-3 text-primary-color"></i>
+                    </div>
+                </div>
+                <div class="mt-2 d-flex justify-content-between align-items-center">
+                    <span class="badge bg-light text-dark">${task.value} Hours Goal</span>
+                    <button class="btn btn-link text-danger p-0" onclick="event.stopPropagation(); deleteTask(${task.id})">
+                        ${ICONS.trash} 
+                    </button>
+                </div>
+            </div>
+        </div>`;
+        container.insertAdjacentHTML('beforeend', cardHtml);
+    });
 }
