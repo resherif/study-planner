@@ -69,7 +69,12 @@ function seemoreBtn(){
         seeMoreBtn.style.display = tasks.length > 3 ? 'block' : 'none';
     }
 }
-
+function startStudySession(subjectName, hourGoal) {
+    localStorage.setItem('activeSubject', subjectName);
+    const seconds = hourGoal > 0 ? (hourGoal * 60 * 60) : 1500;
+    localStorage.setItem('customTimerSeconds', seconds);
+    window.location.href = "NewSession.html"; 
+}
 function renderTaskCard(task) {
     const container = document.getElementById('task-container');
     const html = `
@@ -83,7 +88,7 @@ function renderTaskCard(task) {
                         <small class="text-primary-color fw-bold">Subject</small>
                         <h5 class="card-title fw-bold mb-0">${task.title}</h5>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-auto" style="cursor: pointer;" onclick="startStudySession('${task.title}', ${task.value})">
                          <i class="bi bi-play-fill fs-3 text-primary-color"></i>
                     </div>
                 </div>
