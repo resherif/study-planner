@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="style/sessionsStyle.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>New session</title>
+</head>
+<body>
+   <div class="container">
+    <div class="cont-header">
+      
+        <button class="mode-btn active" data-time="1500">Pomodoro</button>
+        <button class="mode-btn" data-time="300">Short Break</button>
+        <button class="mode-btn" data-time="900">Long Break</button>
+    </div>
+    <div class="cont-body">
+        <div class="time" id="display">25:00</div>
+        <div class="controllers">
+            <button id="start">Start</button>
+            <button id="reset">
+                <i class="fa-solid fa-arrow-rotate-right"></i>
+            </button>
+        </div>
+    </div>
+</div>
+<script src="js/Sessions.js"></script>
+</body>
+</html>
