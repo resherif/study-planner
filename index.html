@@ -57,7 +57,7 @@
 <!--greeting-->
     <div class="row mb-4">
         <div class="col-12">
-            <h1 class="h3 mb-1 fw-bold">Good morning, <span class="text-primary-color">userName</span>! 👋</h1>
+            <h1 class="h3 mb-1 fw-bold">Good morning, <span id="user-display-name">userName</span>! 👋</h1>
             <p class="text-muted small">Let's make today productive.</p>
         </div>
     </div>
@@ -70,7 +70,7 @@
                     <div class="bg-light rounded-circle p-3 fs-4">🕒</div>
                     <div>
                         <small class="text-muted d-block">Study Time</small>
-                        <span class="fw-bold h5">3h 00m</span>
+                        <span id="total-study-hours" class="fw-bold h5">0h</span>
                     </div>
                 </div>
             </div>
@@ -80,8 +80,8 @@
                 <div class="d-flex align-items-center gap-3">
                     <div class="bg-light rounded-circle p-3 fs-4">🎯</div>
                     <div>
-                        <small class="text-muted d-block">Daily Goal</small>
-                        <span class="fw-bold h5">6h 00m</span>
+                        <small class="text-muted d-block">Time Completed</small>
+                        <span id="actual-study-time" class="fw-bold h5">00:00</span>
                     </div>
                 </div>
             </div>
@@ -92,7 +92,7 @@
                     <div class="bg-light rounded-circle p-3 fs-4">📖</div>
                     <div>
                         <small class="text-muted d-block">Subjects</small>
-                        <span class="fw-bold h5">2</span>
+                        <span id="subject-count" class="fw-bold h5">0</span>
                     </div>
                 </div>
             </div>
@@ -177,7 +177,7 @@
 
         <div class="d-flex gap-2">
             <button onclick="pauseTimer()" class="btn btn-primary w-100 py-2 btn-timer">Pause</button>
-            <button onclick="stopTimer()" class="btn btn-light border w-100 py-2 btn-timer">End</button>
+            <button onclick="finalizeSession()" class="btn btn-light border w-100 py-2 btn-timer">End</button>
         </div>
     </div>
 </div>

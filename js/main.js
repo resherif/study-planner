@@ -1,7 +1,16 @@
 // we want the user to be able to inter the tasks 
 // we wnat to display thoes tasks in ui ->
+// the user should be able to delete the tasks from the plan
 
-// the user should be able to delete and edit the tasks
+//  the user click on the go to planner btn then inter-> 
+//  his name then hola he is inside the dashbard
+//there is a summery in the top-> the number of the subject logic is done
+
+// we may need like 6to8 api 
+//we will use nodejs and mango atlas or use (nodejs express sever)
+//
+
+
 
 // for the [reomve(icons)]
 
@@ -13,6 +22,7 @@ const ICONS = {
 
 //loading from the localstorage 
 document.addEventListener('DOMContentLoaded',()=>{
+    displayUserName();
     const savedTasks = localStorage.getItem('myTasks')
     
     if(!savedTasks) return;
@@ -21,6 +31,10 @@ document.addEventListener('DOMContentLoaded',()=>{
     newestTasks.forEach(task => { renderTaskCard(task)
     seemoreBtn()
     });
+   updateStats();
+   updateTotalhours();
+   updateActualStats();
+   
    
 })
 
@@ -82,7 +96,7 @@ function renderTaskCard(task) {
             </div>
         </div>`;
 
-    container.insertAdjacentHTML('afterbegin', html);
+    container.insertAdjacentHTML('beforeend', html);
 }
 
 
@@ -102,6 +116,8 @@ function deleteTask(id) {
        
         loadingDashboard();
     }
+    updateStats();
+    updateTotalhours();
 }
 
 
@@ -123,9 +139,11 @@ function handleSave() {
         tasks.push(task);
         localStorage.setItem('myTasks', JSON.stringify(tasks));
 
-        
+       
         loadingDashboard();
-        
+         updateStats()
+         updateTotalhours();
+         finalizeSession();
        //clear the pop windo
         document.getElementById('subject-input').value = '';
         document.getElementById('goal-input').value = '';
@@ -135,16 +153,38 @@ function handleSave() {
     }
 }
 
-function goToPlanner() {
-    window.location.href = "index.html";
+//this for the landing page <3
 
-   
+
+function goToPlanner() {
+    document.getElementById('nameModal').style.display = 'flex';
+    document.getElementById('userNameInput').focus();
+}
+
+
+function closeModal() {
+    document.getElementById('nameModal').style.display = 'none';
+}
+
+
+function saveAndGo() {
+    const input = document.getElementById('userNameInput');
+    const name = input.value.trim();
+
+    if (name) {
+        localStorage.setItem('studyPlannerUser', name);
+        input.value = '';
+        window.location.href = "index.html"; 
+    } else {
+        // input.style.borderColor = "red";
+        alert("Please enter a name to continue!");
+    }
 }
 
 
 
+let secondsElapsed = 0; 
 let timerInterval = null;
-let secondsElapsed = 0;
 
 function selectSubject(subjectName) {
     
@@ -153,23 +193,21 @@ function selectSubject(subjectName) {
     
     if (activeSubjectName) activeSubjectName.innerText = subjectName;
 
-    
+    secondsElapsed = 0;
     startTimer();
 }
 
+//timer
+
 function startTimer() {
-    if (timerInterval) {
-        clearInterval(timerInterval);
-    }
-    
-    totalSeconds = 0; 
+    if (timerInterval) clearInterval(timerInterval);
 
     timerInterval = setInterval(() => {
-        totalSeconds++;
+        secondsElapsed++; // Update the variable used for saving
 
-        const hrs = Math.floor(totalSeconds / 3600);
-        const mins = Math.floor((totalSeconds % 3600) / 60);
-        const secs = totalSeconds % 60;
+        const hrs = Math.floor(secondsElapsed / 3600);
+        const mins = Math.floor((secondsElapsed % 3600) / 60);
+        const secs = secondsElapsed % 60;
 
         const timerDisplay = document.getElementById('timer-display');
         if (timerDisplay) {
@@ -189,6 +227,7 @@ function stopTimer() {
     document.getElementById('timer-display').innerText = "00:00:00";
 }
 
+//view nevagtion
 
 function showView(viewId) {
     const dashboard = document.getElementById('view-dashboard');
@@ -211,7 +250,6 @@ const navLinks = document.querySelectorAll('.sidebar .nav-link');
             link.classList.add('text-white-50');
             link.classList.remove('text-white', 'fw-bold');
             
-            // Check if the link has an onclick attribute before searching it
             const clickAttr = link.getAttribute('onclick');
             if (clickAttr && clickAttr.includes(viewId)) {
                 link.classList.remove('text-white-50');
@@ -220,7 +258,7 @@ const navLinks = document.querySelectorAll('.sidebar .nav-link');
         });
     }
 }
-
+//render function for the all tasks veiw
 function renderFullTaskList() {
     const container = document.getElementById('full-task-list');
     const tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
@@ -257,4 +295,65 @@ function renderFullTaskList() {
         </div>`;
         container.insertAdjacentHTML('beforeend', cardHtml);
     });
+}
+//function for the number of subject
+ function updateStats(){
+    const tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
+    const countElement = document.getElementById('subject-count');
+    if (countElement) {
+        countElement.innerText = tasks.length;
+    }
+ }
+ // function for the toal hours
+ function updateTotalhours(){
+    const tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
+    const timeElement = document.getElementById('total-study-hours');
+    if (timeElement) {
+        const totalHours = tasks.reduce((sum, task) => {
+            return sum + (Number(task.value) || 0);
+        }, 0);
+
+        timeElement.innerText = `${totalHours}h`;
+    }
+ }
+
+
+// Updates the Daily Goal 
+
+function finalizeSession() {
+    clearInterval(timerInterval);
+    
+    let currentTotal = parseInt(localStorage.getItem('totalSecondsStudied')) || 0;
+    
+    let newTotal = currentTotal + secondsElapsed;
+    
+    localStorage.setItem('totalSecondsStudied', newTotal);
+    
+    secondsElapsed = 0;
+    const timerDisplay = document.getElementById('timer-display');
+    if (timerDisplay) timerDisplay.innerText = "00:00:00";
+    
+    updateActualStats();
+}
+
+function updateActualStats() {
+    const totalSeconds = parseInt(localStorage.getItem('totalSecondsStudied')) || 0;
+    const hrs = Math.floor(totalSeconds / 3600);
+    const mins = Math.floor((totalSeconds % 3600) / 60);
+    
+    const displayElement = document.getElementById('actual-study-time');
+    if (displayElement) {
+        displayElement.innerText = `${hrs}h ${mins.toString().padStart(2, '0')}m`;
+    }
+}
+
+
+ function displayUserName() {
+
+    const savedName = localStorage.getItem('studyPlannerUser');
+    const nameElement = document.getElementById('user-display-name');
+
+    if (savedName && nameElement) {
+        nameElement.innerText = savedName;
+    }
 }
