@@ -1,0 +1,75 @@
+body {
+    /* Using a professional workspace background */
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                url('https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?auto=format&fit=crop&w=1600&q=80');
+    background-position: center;
+    background-size: cover;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.container {
+    width: 400px;
+    margin: auto;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.cont-header {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.mode-btn {
+    border-radius: 10px;
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.mode-btn.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: white;
+}
+
+.time {
+    font-size: 80px;
+    font-weight: bold;
+    color: white;
+    margin: 20px 0;
+}
+
+#start {
+    background-color: white;
+    color: #333;
+    border-radius: 10px;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 12px 50px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#start:active { transform: scale(0.95); }
+
+#reset {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 25px;
+    cursor: pointer;
+    margin-left: 15px;
+    vertical-align: middle;
+}

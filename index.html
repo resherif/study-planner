@@ -43,7 +43,7 @@
             </li>
 
             <li class="nav-item mb-2">
-                <a class="nav-link text-white-50 d-flex align-items-center gap-2" href="#">
+                <a class="nav-link text-white-50 d-flex align-items-center gap-2" href="Sessions.html">
                     <i class="bi bi-clock-history"></i>
                     <span>Sessions</span>
                 </a>
@@ -59,56 +59,59 @@
         <div class="col-12">
             <h1 class="h3 mb-1 fw-bold">Good morning, <span id="user-display-name">userName</span>! 👋</h1>
             <p class="text-muted small">Let's make today productive.</p>
-        </div>
+    
     </div>
 <!--greeting-->
 <!--followup cards-->
     <div class="row mb-4">
-        <div class="col-md-3 mb-3">
-            <div class="card border-0 shadow-sm p-3 h-100">
-                <div class="d-flex align-items-center gap-3">
-                    <div class="bg-light rounded-circle p-3 fs-4">🕒</div>
-                    <div>
-                        <small class="text-muted d-block">Study Time</small>
-                        <span id="total-study-hours" class="fw-bold h5">0h</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="card border-0 shadow-sm p-3 h-100">
-                <div class="d-flex align-items-center gap-3">
-                    <div class="bg-light rounded-circle p-3 fs-4">🎯</div>
-                    <div>
-                        <small class="text-muted d-block">Time Completed</small>
-                        <span id="actual-study-time" class="fw-bold h5">00:00</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="card border-0 shadow-sm p-3 h-100">
-                <div class="d-flex align-items-center gap-3">
-                    <div class="bg-light rounded-circle p-3 fs-4">📖</div>
-                    <div>
-                        <small class="text-muted d-block">Subjects</small>
-                        <span id="subject-count" class="fw-bold h5">0</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="card border-0 shadow-sm p-3 h-100">
-                <div class="d-flex align-items-center gap-3">
-                    <div class="bg-light rounded-circle p-3 fs-4">✅</div>
-                    <div>
-                        <small class="text-muted d-block">Sessions</small>
-                        <span class="fw-bold h5">2</span>
-                    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card-coffee card border-0 shadow-sm p-3 h-100 task-card-design">
+            <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle p-3 fs-4" style="background-color: var(--bg-light); color: var(--accent-orange);">🕒</div>
+                <div>
+                    <small class="text-muted d-block fw-bold" style="font-size: 0.75rem; text-transform: uppercase;">Study Time</small>
+                    <span id="total-study-hours" class="fw-bold h5" style="color: var(--main-blue);">0h</span>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="stat-card-coffee card border-0 shadow-sm p-3 h-100 task-card-design">
+            <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle p-3 fs-4" style="background-color: var(--bg-light); color: var(--accent-orange);">🎯</div>
+                <div>
+                    <small class="text-muted d-block fw-bold" style="font-size: 0.75rem; text-transform: uppercase;">Time Completed</small>
+                    <span id="actual-study-time" class="fw-bold h5" style="color: var(--main-blue);">00:00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class=" stat-card-coffee card border-0 shadow-sm p-3 h-100 task-card-design">
+            <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle p-3 fs-4" style="background-color: var(--bg-light); color: var(--accent-orange);">📖</div>
+                <div>
+                    <small class="text-muted d-block fw-bold" style="font-size: 0.75rem; text-transform: uppercase;">Subjects</small>
+                    <span id="subject-count" class="fw-bold h5" style="color: var(--main-blue);">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class=" stat-card-coffee card border-0 shadow-sm p-3 h-100 task-card-design">
+            <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle p-3 fs-4" style="background-color: var(--bg-light); color: var(--accent-orange);">✅</div>
+                <div>
+                    <small class="text-muted d-block fw-bold" style="font-size: 0.75rem; text-transform: uppercase;">Sessions</small>
+                    <span class="fw-bold h5">2</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!--followup cards-->
 
     <div class="row">
@@ -117,12 +120,12 @@
            <section id="view-dashboard">
     <div class="d-flex justify-content-between align-items-center mb-5">
         <h3 class="fw-bold">Today's Plan</h3>
-        <button  class="btn btn-primary" onclick="togglePopup()">+ Add Subject</button>
+        <button  class="btn btn-primary" onclick="openModal()">+ Add Subject</button>
     </div>
     
     <div id="task-container"></div>
     
-    <button id="see-more-btn" class="btn btn-link p-0 d-none" onclick="showView('view-all-tasks')">
+    <button id="see-more-btn" class="simple-text-link p-0 d-done" onclick="showView('view-all-tasks')">
     See More Tasks...
 </button>
 </section>
@@ -164,21 +167,21 @@
     <div class="card-body p-4 text-center">
         <h6 class="fw-bold text-start mb-4 text-dark">Active Session</h6>
         
-        <div class="timer-container mb-4">
+        <!-- <div class="timer-container mb-4">
             <div class="timer-circle">
                 <h5 class="fw-bold mb-0" id="timer-display">00:00:00</h5>
             </div>
-        </div>
+        </div> -->
 
         <div class="session-info mb-4">
             <p class="fw-bold mb-0" id="current-subject-name">No Active Subject</p>
             <small class="text-muted">Focusing...</small>
         </div>
 
-        <div class="d-flex gap-2">
+        <!-- <div class="d-flex gap-2">
             <button onclick="pauseTimer()" class="btn btn-primary w-100 py-2 btn-timer">Pause</button>
             <button onclick="finalizeSession()" class="btn btn-light border w-100 py-2 btn-timer">End</button>
-        </div>
+        </div> -->
     </div>
 </div>
     </div>
@@ -223,7 +226,7 @@
         </div>
         
         <div class="d-flex justify-content-end gap-2">
-            <button class="btn btn-light py-2 px-4" onclick="togglePopup()" style="font-size: 0.9rem;">Cancel</button>
+            <button class="btn btn-light py-2 px-4" onclick="closeModalwindo()" style="font-size: 0.9rem;">Cancel</button>
             <button class="btn btn-primary py-2 px-4" onclick="handleSave()" style="font-size: 0.9rem;">Create Subject</button>
         </div>
     </div>

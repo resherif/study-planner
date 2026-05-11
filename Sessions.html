@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Planner - Coffee Sessions</title>
+    <!-- Standard CSS Link -->
+    <link rel="stylesheet" href="style/sessions.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="coffee-theme">
+    <nav class="navbar">
+        <div class="nav-container">
+            <h2 class="logo">StudyPlanner<span>.</span></h2>
+            <div class="nav-links">
+                <a href="index.html">Dashboard</a>
+                <a href="Sessions.html" class="active">Sessions</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="page-header">
+            <div class="header-text">
+                <h1>Today's Sessions ☕</h1>
+                <p>Brewing productivity, one session at a time.</p>
+            </div>
+            <a href="NewSession.html" class="btn-primary">
+                <i class="fas fa-plus"></i> New Session
+            </a>
+        </header>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <p class="stat-label">Completed Sessions</p>
+                <p id="sessionCount" class="stat-value text-coffee">0 Sessions</p>
+            </div>
+            <div class="stat-card">
+                <p class="stat-label">Weekly Goal Progress</p>
+                <p id="weeklyGoal" class="stat-value text-espresso">0/20</p>
+                <div class="progress-container">
+                    <div id="goalBar" class="progress-bar"></div>
+                </div>
+            </div>
+        </section>
+
+        <div id="sessionsContainer" class="sessions-grid">
+            <!-- Sessions injected by JS -->
+        </div>
+
+        <div id="emptyState" class="empty-state hidden">
+            <i class="fas fa-mug-hot"></i>
+            <p>Your pot is empty. Start a new session!</p>
+        </div>
+    </main>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="js/Sessions.js"></script>
+</body>
+</html>

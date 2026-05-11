@@ -75,7 +75,7 @@ function renderTaskCard(task) {
     const html = `
         <div class="card mb-3 shadow-sm border-0 task-card" 
              id="task-${task.id}" 
-             onclick="selectSubject('${task.title}')" 
+             onclick="selectSubject('${task.title}','${task.value}')" 
              style="cursor: pointer; transition: 0.3s;">
             <div class="card-body">
                 <div class="row align-items-center">
@@ -122,12 +122,24 @@ function deleteTask(id) {
 
 
 
-function togglePopup() {
-    const overlay = document.getElementById('popupOverlay');
-    overlay.classList.toggle('active');
+function openModal() {
+    const modal = document.getElementById('popupOverlay');
+    modal.style.display = 'flex'; // Use flex to center it
+    modal.classList.add('active');
+    // Small delay to trigger the scale animation
+    setTimeout(() => {
+        modal.classList.add('active');
+    }, 10);
 }
 
-
+function closeModalwindo() {
+    // Make sure this selector matches your NEW coffee html class
+    const modal = document.querySelector('.modal-overlay'); 
+    if (modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('active');
+    }
+}
 function handleSave() {
     const title = document.getElementById('subject-input').value;
     const value = document.getElementById('goal-input').value;
@@ -143,14 +155,17 @@ function handleSave() {
         loadingDashboard();
          updateStats()
          updateTotalhours();
-         finalizeSession();
+        //  finalizeSession();
        //clear the pop windo
+
         document.getElementById('subject-input').value = '';
         document.getElementById('goal-input').value = '';
-        togglePopup();
+          closeModalwindo();
+
     } else {
         alert("Please enter both the Subject and the Hour Goal!");
     }
+
 }
 
 //this for the landing page <3
@@ -176,56 +191,59 @@ function saveAndGo() {
         input.value = '';
         window.location.href = "index.html"; 
     } else {
-        // input.style.borderColor = "red";
         alert("Please enter a name to continue!");
     }
 }
 
+//END of the goto sudyplanner page
 
+// let secondsElapsed = 0; 
+// let timerInterval = null;
 
-let secondsElapsed = 0; 
-let timerInterval = null;
+function selectSubject(subjectName,hourGoal) {
+    const hours = parseFloat(hourGoal) || 0;
+    localStorage.setItem('activeSubject', subjectName);//saving to the localstorage
+    localStorage.setItem('activeGoal',String(sessionsNeeded)); // Save the hours too!
 
-function selectSubject(subjectName) {
+    window.location.href = "Sessions.html";
+    // const activeSubjectName = document.querySelector('.card-body.text-center p.fw-bold');
+    // const statusText = document.querySelector('.card-body.text-center .text-muted.mb-4');
     
-    const activeSubjectName = document.querySelector('.card-body.text-center p.fw-bold');
-    const statusText = document.querySelector('.card-body.text-center .text-muted.mb-4');
-    
-    if (activeSubjectName) activeSubjectName.innerText = subjectName;
+    // if (activeSubjectName) activeSubjectName.innerText = subjectName;
 
-    secondsElapsed = 0;
-    startTimer();
+    // secondsElapsed = 0;
+    // startTimer();
 }
 
 //timer
 
-function startTimer() {
-    if (timerInterval) clearInterval(timerInterval);
+// function startTimer() {
+//     if (timerInterval) clearInterval(timerInterval);
 
-    timerInterval = setInterval(() => {
-        secondsElapsed++; // Update the variable used for saving
+//     timerInterval = setInterval(() => {
+//         secondsElapsed++;
 
-        const hrs = Math.floor(secondsElapsed / 3600);
-        const mins = Math.floor((secondsElapsed % 3600) / 60);
-        const secs = secondsElapsed % 60;
+//         const hrs = Math.floor(secondsElapsed / 3600);
+//         const mins = Math.floor((secondsElapsed % 3600) / 60);
+//         const secs = secondsElapsed % 60;
 
-        const timerDisplay = document.getElementById('timer-display');
-        if (timerDisplay) {
-            timerDisplay.innerText = 
-                `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-        }
-    }, 1000);
-}
+//         const timerDisplay = document.getElementById('timer-display');
+//         if (timerDisplay) {
+//             timerDisplay.innerText = 
+//                 `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+//         }
+//     }, 1000);
+// }
 
-function pauseTimer() {
-    clearInterval(timerInterval);
-}
+// function pauseTimer() {
+//     clearInterval(timerInterval);
+// }
 
-function stopTimer() {
-    clearInterval(timerInterval);
-    totalSeconds = 0;
-    document.getElementById('timer-display').innerText = "00:00:00";
-}
+// function stopTimer() {
+//     clearInterval(timerInterval);
+//     totalSeconds = 0;
+//     document.getElementById('timer-display').innerText = "00:00:00";
+// }
 
 //view nevagtion
 
@@ -320,21 +338,21 @@ function renderFullTaskList() {
 
 // Updates the Daily Goal 
 
-function finalizeSession() {
-    clearInterval(timerInterval);
+// function finalizeSession() {
+//     clearInterval(timerInterval);
     
-    let currentTotal = parseInt(localStorage.getItem('totalSecondsStudied')) || 0;
+//     let currentTotal = parseInt(localStorage.getItem('totalSecondsStudied')) || 0;
     
-    let newTotal = currentTotal + secondsElapsed;
+//     let newTotal = currentTotal + secondsElapsed;
     
-    localStorage.setItem('totalSecondsStudied', newTotal);
+//     localStorage.setItem('totalSecondsStudied', newTotal);
     
-    secondsElapsed = 0;
-    const timerDisplay = document.getElementById('timer-display');
-    if (timerDisplay) timerDisplay.innerText = "00:00:00";
+//     secondsElapsed = 0;
+//     const timerDisplay = document.getElementById('timer-display');
+//     if (timerDisplay) timerDisplay.innerText = "00:00:00";
     
-    updateActualStats();
-}
+//     updateActualStats();
+// }
 
 function updateActualStats() {
     const totalSeconds = parseInt(localStorage.getItem('totalSecondsStudied')) || 0;
