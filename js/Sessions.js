@@ -51,6 +51,7 @@ function handleSessionCompletion() {
     alert(`Great job! You finished your session for: ${activeSubject}`);
     window.location.href = "Sessions.html"; 
 }
+
 document.querySelectorAll('.mode-btn').forEach(button => {
     button.addEventListener('click', () => {
         document.querySelector('.mode-btn.active').classList.remove('active');
@@ -81,3 +82,35 @@ document.getElementById('reset').addEventListener('click', () => {
 });
 updateDisplay();
 startBtn.addEventListener('click', startTimer);
+
+function handleSessionCompletion() {
+    const originalTime = savedCustomTime ? parseInt(savedCustomTime) : 1500;
+    const minutesSpent = Math.floor(originalTime / 60);
+
+    let totalMinutes = parseInt(localStorage.getItem('totalStudyMinutes')) || 0;
+    totalMinutes += minutesSpent;
+    localStorage.setItem('totalStudyMinutes', totalMinutes);
+
+    let completedCount = parseInt(localStorage.getItem('completedSessions')) || 0;
+    localStorage.setItem('completedSessions', completedCount + 1);
+
+    const newSession = {
+        id: Date.now(),
+        title: activeSubject,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        status: "Completed"
+    };
+    sessions.unshift(newSession);
+    localStorage.setItem('studySessions', JSON.stringify(sessions));
+
+    alert(`Great job! You finished: ${activeSubject}`);
+    window.location.href = "index.html";
+}
+
+function saveSessionTime(minutesSpent) {
+    let totalMinutes = parseInt(localStorage.getItem('totalStudyMinutes')) || 0;
+    
+    totalMinutes += minutesSpent;
+    
+    localStorage.setItem('totalStudyMinutes', totalMinutes);
+}

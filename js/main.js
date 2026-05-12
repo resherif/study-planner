@@ -94,9 +94,9 @@ function renderTaskCard(task) {
                 </div>
                 <div class="mt-2 d-flex justify-content-between align-items-center">
                     <span class="badge bg-light text-dark">${task.value} Hours Goal</span>
-                    <button class="btn btn-link text-danger p-0" onclick="event.stopPropagation(); deleteTask(${task.id})">
-                        ${ICONS.trash} 
-                    </button>
+                   <span class="trash-icon-action" onclick="event.stopPropagation(); deleteTask(${task.id})">
+    ${ICONS.trash} 
+</span>
                 </div>
             </div>
         </div>`;
@@ -211,44 +211,9 @@ function selectSubject(subjectName,hourGoal) {
     localStorage.setItem('activeGoal',String(sessionsNeeded)); // Save the hours too!
 
     window.location.href = "Sessions.html";
-    // const activeSubjectName = document.querySelector('.card-body.text-center p.fw-bold');
-    // const statusText = document.querySelector('.card-body.text-center .text-muted.mb-4');
     
-    // if (activeSubjectName) activeSubjectName.innerText = subjectName;
-
-    // secondsElapsed = 0;
-    // startTimer();
 }
 
-//timer
-
-// function startTimer() {
-//     if (timerInterval) clearInterval(timerInterval);
-
-//     timerInterval = setInterval(() => {
-//         secondsElapsed++;
-
-//         const hrs = Math.floor(secondsElapsed / 3600);
-//         const mins = Math.floor((secondsElapsed % 3600) / 60);
-//         const secs = secondsElapsed % 60;
-
-//         const timerDisplay = document.getElementById('timer-display');
-//         if (timerDisplay) {
-//             timerDisplay.innerText = 
-//                 `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-//         }
-//     }, 1000);
-// }
-
-// function pauseTimer() {
-//     clearInterval(timerInterval);
-// }
-
-// function stopTimer() {
-//     clearInterval(timerInterval);
-//     totalSeconds = 0;
-//     document.getElementById('timer-display').innerText = "00:00:00";
-// }
 
 //view nevagtion
 
@@ -293,10 +258,10 @@ function renderFullTaskList() {
     }
 
     [...tasks].reverse().forEach(task => {
-        const cardHtml =  `
+        const cardHtml = `
         <div class="card mb-3 shadow-sm border-0 task-card" 
              id="task-${task.id}" 
-             onclick="selectSubject('${task.title}')" 
+             onclick="selectSubject('${task.title}','${task.value}')" 
              style="cursor: pointer; transition: 0.3s;">
             <div class="card-body">
                 <div class="row align-items-center">
@@ -304,15 +269,15 @@ function renderFullTaskList() {
                         <small class="text-primary-color fw-bold">Subject</small>
                         <h5 class="card-title fw-bold mb-0">${task.title}</h5>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-auto" style="cursor: pointer;" onclick="startStudySession('${task.title}', ${task.value})">
                          <i class="bi bi-play-fill fs-3 text-primary-color"></i>
                     </div>
                 </div>
                 <div class="mt-2 d-flex justify-content-between align-items-center">
                     <span class="badge bg-light text-dark">${task.value} Hours Goal</span>
-                    <button class="btn btn-link text-danger p-0" onclick="event.stopPropagation(); deleteTask(${task.id})">
-                        ${ICONS.trash} 
-                    </button>
+                   <span class="trash-icon-action" onclick="event.stopPropagation(); deleteTask(${task.id})">
+    ${ICONS.trash} 
+</span>
                 </div>
             </div>
         </div>`;
@@ -380,3 +345,65 @@ function updateActualStats() {
         nameElement.innerText = savedName;
     }
 }
+//this for the update the your rank card
+function updateStudyRank(totalHours) {
+    const rankElement = document.getElementById('studyRankDisplay');
+    let rank = "";
+
+    if (totalHours < 2) {
+        rank = "Coffee Bean 🌱";
+    } else if (totalHours < 5) {
+        rank = "Latte Learner ☕";
+    } else if (totalHours < 10) {
+        rank = "Cappuccino Captain 🥛";
+    } else if (totalHours < 12) {
+        rank = "Espresso Expert ⚡";
+    } else {
+        rank = "Coffee Master 👑";
+    }
+
+    if (rankElement) {
+        rankElement.innerText = rank;
+    }
+}
+
+// this for the time complate card
+function refreshDashboardStats() {
+    const totalMins = parseInt(localStorage.getItem('totalStudyMinutes')) || 0;
+    const hours = Math.floor(totalMins / 60);
+    const mins = totalMins % 60;
+
+    const timeDisplay = document.getElementById('actual-study-time');
+    if (timeDisplay) {
+        timeDisplay.innerText = `${hours}h ${mins}m`;
+    }
+
+    const sessionCount = localStorage.getItem('completedSessions') || 0;
+    const sessionDisplay = document.getElementById('session-count-id');
+    if (sessionDisplay) {
+        sessionDisplay.innerText = sessionCount;
+    }
+
+    updateStudyRank(hours); 
+}
+
+document.addEventListener('DOMContentLoaded', refreshDashboardStats);
+function updateDashboardTime() {
+    const totalMinutes = parseInt(localStorage.getItem('totalStudyMinutes')) || 0;
+    const timeDisplay = document.getElementById('actual-study-time');
+
+    if (timeDisplay) {
+        const hours = Math.floor(totalMinutes / 60);
+        const mins = totalMinutes % 60;
+
+        timeDisplay.innerText = `${hours}h ${mins}m`;
+        
+        if (typeof updateStudyRank === "function") {
+            updateStudyRank(hours); 
+        }
+    }
+}
+
+updateDashboardTime();
+
+//calnder
