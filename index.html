@@ -293,7 +293,7 @@
 </div>
     <!-- end the pop window for the user to add task-->
 
-
+<!--mobile desgin-->
 <div class="offcanvas offcanvas-start bg-dark-blue text-white"
      tabindex="-1"
      id="mobileSidebar">
@@ -313,16 +313,27 @@
 
         <ul class="nav flex-column">
 
-            <li class="nav-item mb-2">
-                <a class="nav-link text-white" href="#">Dashboard</a>
+             <li class="nav-item mb-2">
+                <a class="nav-link text-white d-flex align-items-center gap-2" 
+           href="javascript:void(0)" 
+           onclick="showView('view-dashboard')">
+            <i class="bi bi-grid-fill"></i>
+            <span>Dashboard</span>
+        </a>
+            </li>
+
+           <li class="nav-item mb-2">
+               <a class="nav-link text-white-50 d-flex align-items-center gap-2" 
+           id="all-tasks-link"
+           href="javascript:void(0)" 
+           onclick="showView('view-all-tasks')">
+            <i class="bi bi-check2-square"></i>
+            <span>All Tasks</span>
+        </a>
             </li>
 
             <li class="nav-item mb-2">
-                <a class="nav-link text-white-50" href="#">All Tasks</a>
-            </li>
-
-            <li class="nav-item mb-2">
-                <a class="nav-link text-white-50" href="#">Sessions</a>
+                <a class="nav-link text-white-50" href="Sessions.html">Sessions</a>
             </li>
 
         </ul>
