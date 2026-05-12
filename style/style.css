@@ -275,3 +275,29 @@ body {
     opacity: 1 !important;
     transition: 0.3s;
 }
+
+/* The 'Finished' card style */
+.subject-card.is-finished {
+    border: 2px solid #D2691E !important; /* Caramel border */
+    background-color: #2b1b17 !important; /* Dark Mocha background */
+    position: relative;
+    opacity: 0.8;
+}
+
+/* Add a checkmark icon automatically */
+.subject-card.is-finished::before {
+    content: '✓';
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #D2691E;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* Strikethrough the text */
+.subject-card.is-finished .card-title {
+    text-decoration: line-through;
+    color: #FFF8E1; /* Vanilla Cream */
+    opacity: 0.6;
+}

@@ -29,15 +29,54 @@ document.addEventListener('DOMContentLoaded',()=>{
     const tasks = JSON.parse(savedTasks);
     const newestTasks = [...tasks].reverse().slice(0,3);
     newestTasks.forEach(task => { renderTaskCard(task)
-    seemoreBtn()
+        updateSeeMoreButton();
     });
    updateStats();
    updateTotalhours();
-   updateActualStats();
    
-   
+   markFinishedTasks();
 })
 
+
+//this function to mark the complteded task
+function markFinishedTasks() {
+    console.log("Checking for completed tasks...");
+    const cards = document.querySelectorAll('.task-card');
+
+    cards.forEach(card => {
+        const titleEl = card.querySelector('.card-title');
+        if (!titleEl) return;
+        
+        const subjectName = titleEl.innerText.trim();
+
+        if (localStorage.getItem('finished-' + subjectName) === 'true') {
+            
+            card.style.backgroundColor = "#2b1b17"; // Dark Roast
+            card.style.borderLeft = "5px solid #81C784"; // Matcha Green
+            card.style.opacity = "0.8";
+            
+            titleEl.style.textDecoration = "line-through";
+            titleEl.style.color = "#aaa";
+
+            const icon = card.querySelector('.bi-play-fill');
+            if (icon) {
+                icon.className = "bi bi-check-circle-fill text-success fs-3";
+            }
+        }
+    });
+}
+function updateSeeMoreButton() {
+    const tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
+    const seeMoreBtn = document.getElementById('see-more-btn'); // Use your actual ID
+
+    if (seeMoreBtn) {
+        if (tasks.length > 3) {
+            seeMoreBtn.style.display = 'block'; // Or 'flex'
+        } else {
+            seeMoreBtn.style.display = 'none';
+        }
+    }
+}
 function loadingDashboard(){
     const container = document.getElementById('task-container');
     const seeMoreBtn = document.getElementById('see-more-btn');
@@ -51,30 +90,18 @@ function loadingDashboard(){
     [...tasks].reverse().slice(0, 3).forEach(task => renderTaskCard(task));
 
     // Show/Hide "See More" button
-if (seeMoreBtn) {
-        if (tasks.length > 3) {
-            seeMoreBtn.classList.remove('d-none');
-            seeMoreBtn.style.display = "block"; // Extra insurance
-        } else {
-            seeMoreBtn.classList.add('d-none');
-            seeMoreBtn.style.display = "none";
-        }
-    }
+    updateSeeMoreButton();
+     
 }
 
-function seemoreBtn(){
-    const tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
-    const seeMoreBtn = document.getElementById('see-more-link');
-    if (seeMoreBtn) {
-        seeMoreBtn.style.display = tasks.length > 3 ? 'block' : 'none';
-    }
-}
+
 function startStudySession(subjectName, hourGoal) {
     localStorage.setItem('activeSubject', subjectName);
     const seconds = hourGoal > 0 ? (hourGoal * 60 * 60) : 1500;
     localStorage.setItem('customTimerSeconds', seconds);
     window.location.href = "NewSession.html"; 
 }
+
 function renderTaskCard(task) {
     const container = document.getElementById('task-container');
     const html = `
@@ -102,6 +129,7 @@ function renderTaskCard(task) {
         </div>`;
 
     container.insertAdjacentHTML('beforeend', html);
+    markFinishedTasks();
 }
 
 
@@ -113,7 +141,7 @@ function deleteTask(id) {
     localStorage.setItem('myTasks', JSON.stringify(tasks));
 //checking when we are in the alltask veiw
    const allTasksView = document.getElementById('view-all-tasks');
-    
+    localStorage.removeItem('finished-' + tasks.title);
     if (allTasksView && allTasksView.style.display === 'block') {
         
         renderFullTaskList(); 
@@ -121,8 +149,10 @@ function deleteTask(id) {
        
         loadingDashboard();
     }
+
     updateStats();
     updateTotalhours();
+    markFinishedTasks();
 }
 
 
@@ -148,8 +178,9 @@ function closeModalwindo() {
 function handleSave() {
     const title = document.getElementById('subject-input').value;
     const value = document.getElementById('goal-input').value;
-
+// localStorage.removeItem('finished-' + newTitle);
     if (title && value) {
+        localStorage.removeItem('finished-' + title.trim());
         const task = { id: Date.now(), title, value };
         
         const tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
@@ -170,7 +201,7 @@ function handleSave() {
     } else {
         alert("Please enter both the Subject and the Hour Goal!");
     }
-
+    markFinishedTasks();
 }
 
 //this for the landing page <3
@@ -246,6 +277,7 @@ const navLinks = document.querySelectorAll('.sidebar .nav-link');
         });
     }
 }
+
 //render function for the all tasks veiw
 function renderFullTaskList() {
     const container = document.getElementById('full-task-list');
@@ -282,6 +314,7 @@ function renderFullTaskList() {
             </div>
         </div>`;
         container.insertAdjacentHTML('beforeend', cardHtml);
+        markFinishedTasks();
     });
 }
 //function for the number of subject
@@ -406,4 +439,6 @@ function updateDashboardTime() {
 
 updateDashboardTime();
 
-//calnder
+
+
+// Run this as soon as the page loads
