@@ -104,6 +104,7 @@ function startStudySession(subjectName, hourGoal) {
 
 function renderTaskCard(task) {
     const container = document.getElementById('task-container');
+    if (!container) return;
     const html = `
         <div class="card mb-3 shadow-sm border-0 task-card" 
              id="task-${task.id}" 
@@ -281,6 +282,7 @@ const navLinks = document.querySelectorAll('.sidebar .nav-link');
 //render function for the all tasks veiw
 function renderFullTaskList() {
     const container = document.getElementById('full-task-list');
+    if (!container) return;
     const tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
     container.innerHTML = ''; 
 
