@@ -1,3 +1,458 @@
+// // we want the user to be able to inter the tasks 
+// // we wnat to display thoes tasks in ui ->
+// // the user should be able to delete the tasks from the plan
+
+// //  the user click on the go to planner btn then inter-> 
+// //  his name then hola he is inside the dashbard
+// //there is a summery in the top-> the number of the subject logic is done
+
+// // we may need like 6to8 api 
+// //we will use nodejs and mango atlas or use (nodejs express sever)
+// //
+
+
+
+// // for the [reomve(icons)]
+
+// const ICONS = {
+//     trash: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>`,
+//     check: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`
+// }; 
+
+
+// //loading from the localstorage 
+// document.addEventListener('DOMContentLoaded',()=>{
+//     displayUserName();
+//     const savedTasks = localStorage.getItem('myTasks')
+    
+//     if(!savedTasks) return;
+//     const tasks = JSON.parse(savedTasks);
+//     const newestTasks = [...tasks].reverse().slice(0,3);
+//     newestTasks.forEach(task => { renderTaskCard(task)
+//         updateSeeMoreButton();
+//     });
+//    updateStats();
+//    updateTotalhours();
+   
+//    markFinishedTasks();
+// })
+
+
+// //this function to mark the complteded task
+// function markFinishedTasks() {
+//     console.log("Checking for completed tasks...");
+//     const cards = document.querySelectorAll('.task-card');
+
+//     cards.forEach(card => {
+//         const titleEl = card.querySelector('.card-title');
+//         if (!titleEl) return;
+        
+//         const subjectName = titleEl.innerText.trim();
+
+//         if (localStorage.getItem('finished-' + subjectName) === 'true') {
+            
+//             card.style.backgroundColor = "#2b1b17"; // Dark Roast
+//             card.style.borderLeft = "5px solid #81C784"; // Matcha Green
+//             card.style.opacity = "0.8";
+            
+//             titleEl.style.textDecoration = "line-through";
+//             titleEl.style.color = "#aaa";
+
+//             const icon = card.querySelector('.bi-play-fill');
+//             if (icon) {
+//                 icon.className = "bi bi-check-circle-fill text-success fs-3";
+//             }
+//         }
+//     });
+// }
+// function updateSeeMoreButton() {
+//     const tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
+//     const seeMoreBtn = document.getElementById('see-more-btn'); // Use your actual ID
+
+//     if (seeMoreBtn) {
+//         if (tasks.length > 3) {
+//             seeMoreBtn.style.display = 'block'; // Or 'flex'
+//         } else {
+//             seeMoreBtn.style.display = 'none';
+//         }
+//     }
+// }
+// function loadingDashboard(){
+//     const container = document.getElementById('task-container');
+//     const seeMoreBtn = document.getElementById('see-more-btn');
+    
+//     container.innerHTML = ''; 
+
+    
+//     const tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
+
+   
+//     [...tasks].reverse().slice(0, 3).forEach(task => renderTaskCard(task));
+
+//     // Show/Hide "See More" button
+//     updateSeeMoreButton();
+     
+// }
+
+
+// function startStudySession(subjectName, hourGoal) {
+//     localStorage.setItem('activeSubject', subjectName);
+//     const seconds = hourGoal > 0 ? (hourGoal * 60 * 60) : 1500;
+//     localStorage.setItem('customTimerSeconds', seconds);
+//     window.location.href = "NewSession.html"; 
+// }
+
+// function renderTaskCard(task) {
+//     const container = document.getElementById('task-container');
+//     if (!container) return;
+//     const html = `
+//         <div class="card mb-3 shadow-sm border-0 task-card" 
+//              id="task-${task.id}" 
+//              onclick="selectSubject('${task.title}','${task.value}')" 
+//              style="cursor: pointer; transition: 0.3s;">
+//             <div class="card-body">
+//                 <div class="row align-items-center">
+//                     <div class="col">
+//                         <small class="text-primary-color fw-bold">Subject</small>
+//                         <h5 class="card-title fw-bold mb-0">${task.title}</h5>
+//                     </div>
+//                     <div class="col-auto" style="cursor: pointer;" onclick="startStudySession('${task.title}', ${task.value})">
+//                          <i class="bi bi-play-fill fs-3 text-primary-color"></i>
+//                     </div>
+//                 </div>
+//                 <div class="mt-2 d-flex justify-content-between align-items-center">
+//                     <span class="badge bg-light text-dark">${task.value} Hours Goal</span>
+//                    <span class="trash-icon-action" onclick="event.stopPropagation(); deleteTask(${task.id})">
+//     ${ICONS.trash} 
+// </span>
+//                 </div>
+//             </div>
+//         </div>`;
+
+//     container.insertAdjacentHTML('beforeend', html);
+//     markFinishedTasks();
+// }
+
+
+// function deleteTask(id) {
+    
+//     let tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
+//     tasks = tasks.filter(t => t.id !== id);
+
+//     localStorage.setItem('myTasks', JSON.stringify(tasks));
+// //checking when we are in the alltask veiw
+//    const allTasksView = document.getElementById('view-all-tasks');
+//     localStorage.removeItem('finished-' + tasks.title);
+//     if (allTasksView && allTasksView.style.display === 'block') {
+        
+//         renderFullTaskList(); 
+//     } else {
+       
+//         loadingDashboard();
+//     }
+
+//     updateStats();
+//     updateTotalhours();
+//     markFinishedTasks();
+// }
+
+
+
+// function openModal() {
+//     const modal = document.getElementById('popupOverlay');
+//     modal.style.display = 'flex'; // Use flex to center it
+//     modal.classList.add('active');
+//     // Small delay to trigger the scale animation
+//     setTimeout(() => {
+//         modal.classList.add('active');
+//     }, 10);
+// }
+
+// function closeModalwindo() {
+//     // Make sure this selector matches your NEW coffee html class
+//     const modal = document.querySelector('.modal-overlay'); 
+//     if (modal) {
+//         modal.style.display = 'none';
+//         modal.classList.remove('active');
+//     }
+// }
+// function handleSave() {
+//     const title = document.getElementById('subject-input').value;
+//     const value = document.getElementById('goal-input').value;
+// // localStorage.removeItem('finished-' + newTitle);
+//     if (title && value) {
+//         localStorage.removeItem('finished-' + title.trim());
+//         const task = { id: Date.now(), title, value };
+        
+//         const tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
+//         tasks.push(task);
+//         localStorage.setItem('myTasks', JSON.stringify(tasks));
+
+       
+//         loadingDashboard();
+//          updateStats()
+//          updateTotalhours();
+//         //  finalizeSession();
+//        //clear the pop windo
+
+//         document.getElementById('subject-input').value = '';
+//         document.getElementById('goal-input').value = '';
+//           closeModalwindo();
+
+//     } else {
+//         alert("Please enter both the Subject and the Hour Goal!");
+//     }
+//     markFinishedTasks();
+// }
+
+// //this for the landing page <3
+
+
+// function goToPlanner() {
+//     document.getElementById('nameModal').style.display = 'flex';
+//     document.getElementById('userNameInput').focus();
+// }
+
+
+// function closeModal() {
+//     document.getElementById('nameModal').style.display = 'none';
+// }
+
+
+// function saveAndGo() {
+//     const input = document.getElementById('userNameInput');
+//     const name = input.value.trim();
+
+//     if (name) {
+//         localStorage.setItem('studyPlannerUser', name);
+//         input.value = '';
+//         window.location.href = "index.html"; 
+//     } else {
+//         alert("Please enter a name to continue!");
+//     }
+// }
+
+// //END of the goto sudyplanner page
+
+// // let secondsElapsed = 0; 
+// // let timerInterval = null;
+
+// function selectSubject(subjectName,hourGoal) {
+//     const hours = parseFloat(hourGoal) || 0;
+//     localStorage.setItem('activeSubject', subjectName);//saving to the localstorage
+//     localStorage.setItem('activeGoal',String(sessionsNeeded)); // Save the hours too!
+
+//     window.location.href = "Sessions.html";
+    
+// }
+
+
+// //view nevagtion
+
+// function showView(viewId) {
+//     const dashboard = document.getElementById('view-dashboard');
+//     const allTasks = document.getElementById('view-all-tasks');
+// const navLinks = document.querySelectorAll('.sidebar .nav-link');
+//     if (dashboard && allTasks) {
+//         if (viewId === 'view-dashboard') {
+//             dashboard.style.display = 'block';
+//             allTasks.style.display = 'none';
+//             if (typeof loadingDashboard === "function") loadingDashboard();
+//         } else {
+//             dashboard.style.display = 'none';
+//             allTasks.style.display = 'block';
+//             if (typeof renderFullTaskList === "function") renderFullTaskList();
+//         }
+//     }
+
+//    if (navLinks.length > 0) {
+//         navLinks.forEach(link => {
+//             link.classList.add('text-white-50');
+//             link.classList.remove('text-white', 'fw-bold');
+            
+//             const clickAttr = link.getAttribute('onclick');
+//             if (clickAttr && clickAttr.includes(viewId)) {
+//                 link.classList.remove('text-white-50');
+//                 link.classList.add('text-white', 'fw-bold');
+//             }
+//         });
+//     }
+// }
+
+// //render function for the all tasks veiw
+// function renderFullTaskList() {
+//     const container = document.getElementById('full-task-list');
+//     if (!container) return;
+//     const tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
+//     container.innerHTML = ''; 
+
+//     if (tasks.length === 0) {
+//         container.innerHTML = '<div class="text-center w-100 mt-5"><h4>No tasks found.</h4></div>';
+//         return;
+//     }
+
+//     [...tasks].reverse().forEach(task => {
+//         const cardHtml = `
+//         <div class="card mb-3 shadow-sm border-0 task-card" 
+//              id="task-${task.id}" 
+//              onclick="selectSubject('${task.title}','${task.value}')" 
+//              style="cursor: pointer; transition: 0.3s;">
+//             <div class="card-body">
+//                 <div class="row align-items-center">
+//                     <div class="col">
+//                         <small class="text-primary-color fw-bold">Subject</small>
+//                         <h5 class="card-title fw-bold mb-0">${task.title}</h5>
+//                     </div>
+//                     <div class="col-auto" style="cursor: pointer;" onclick="startStudySession('${task.title}', ${task.value})">
+//                          <i class="bi bi-play-fill fs-3 text-primary-color"></i>
+//                     </div>
+//                 </div>
+//                 <div class="mt-2 d-flex justify-content-between align-items-center">
+//                     <span class="badge bg-light text-dark">${task.value} Hours Goal</span>
+//                    <span class="trash-icon-action" onclick="event.stopPropagation(); deleteTask(${task.id})">
+//     ${ICONS.trash} 
+// </span>
+//                 </div>
+//             </div>
+//         </div>`;
+//         container.insertAdjacentHTML('beforeend', cardHtml);
+//         markFinishedTasks();
+//     });
+// }
+// //function for the number of subject
+//  function updateStats(){
+//     const tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
+//     const countElement = document.getElementById('subject-count');
+//     if (countElement) {
+//         countElement.innerText = tasks.length;
+//     }
+//  }
+//  // function for the toal hours
+//  function updateTotalhours(){
+//     const tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
+//     const timeElement = document.getElementById('total-study-hours');
+//     if (timeElement) {
+//         const totalHours = tasks.reduce((sum, task) => {
+//             return sum + (Number(task.value) || 0);
+//         }, 0);
+
+//         timeElement.innerText = `${totalHours}h`;
+//     }
+//  }
+
+
+// // Updates the Daily Goal 
+
+// // function finalizeSession() {
+// //     clearInterval(timerInterval);
+    
+// //     let currentTotal = parseInt(localStorage.getItem('totalSecondsStudied')) || 0;
+    
+// //     let newTotal = currentTotal + secondsElapsed;
+    
+// //     localStorage.setItem('totalSecondsStudied', newTotal);
+    
+// //     secondsElapsed = 0;
+// //     const timerDisplay = document.getElementById('timer-display');
+// //     if (timerDisplay) timerDisplay.innerText = "00:00:00";
+    
+// //     updateActualStats();
+// // }
+
+// function updateActualStats() {
+//     const totalSeconds = parseInt(localStorage.getItem('totalSecondsStudied')) || 0;
+//     const hrs = Math.floor(totalSeconds / 3600);
+//     const mins = Math.floor((totalSeconds % 3600) / 60);
+    
+//     const displayElement = document.getElementById('actual-study-time');
+//     if (displayElement) {
+//         displayElement.innerText = `${hrs}h ${mins.toString().padStart(2, '0')}m`;
+//     }
+// }
+
+
+//  function displayUserName() {
+
+//     const savedName = localStorage.getItem('studyPlannerUser');
+//     const nameElement = document.getElementById('user-display-name');
+
+//     if (savedName && nameElement) {
+//         nameElement.innerText = savedName;
+//     }
+// }
+// //this for the update the your rank card
+// function updateStudyRank(totalHours) {
+//     const rankElement = document.getElementById('studyRankDisplay');
+//     let rank = "";
+
+//     if (totalHours < 2) {
+//         rank = "Coffee Bean 🌱";
+//     } else if (totalHours < 5) {
+//         rank = "Latte Learner ☕";
+//     } else if (totalHours < 10) {
+//         rank = "Cappuccino Captain 🥛";
+//     } else if (totalHours < 12) {
+//         rank = "Espresso Expert ⚡";
+//     } else {
+//         rank = "Coffee Master 👑";
+//     }
+
+//     if (rankElement) {
+//         rankElement.innerText = rank;
+//     }
+// }
+
+// // this for the time complate card
+// function refreshDashboardStats() {
+//     const totalMins = parseInt(localStorage.getItem('totalStudyMinutes')) || 0;
+//     const hours = Math.floor(totalMins / 60);
+//     const mins = totalMins % 60;
+
+//     const timeDisplay = document.getElementById('actual-study-time');
+//     if (timeDisplay) {
+//         timeDisplay.innerText = `${hours}h ${mins}m`;
+//     }
+
+//     const sessionCount = localStorage.getItem('completedSessions') || 0;
+//     const sessionDisplay = document.getElementById('session-count-id');
+//     if (sessionDisplay) {
+//         sessionDisplay.innerText = sessionCount;
+//     }
+
+//     updateStudyRank(hours); 
+// }
+
+// document.addEventListener('DOMContentLoaded', refreshDashboardStats);
+// function updateDashboardTime() {
+//     const totalMinutes = parseInt(localStorage.getItem('totalStudyMinutes')) || 0;
+//     const timeDisplay = document.getElementById('actual-study-time');
+
+//     // if (timeDisplay) {
+//     //     const hours = Math.floor(totalMinutes / 60);
+//     //     const mins = totalMinutes % 60;
+
+//     //     timeDisplay.innerText = `${hours}h ${mins}m`;
+        
+//     //     if (typeof updateStudyRank === "function") {
+//     //         updateStudyRank(hours); 
+//     //     }
+//     // }
+//     if (timeDisplay) {
+//         if (totalMinutes < 60) {
+//             timeDisplay.textContent = `${totalMinutes} Mins`;
+//         } else {
+//             const hours = Math.floor(totalMinutes / 60);
+//             const mins = totalMinutes % 60;
+//             timeDisplay.textContent = `${hours}h ${mins}m`;
+//         }
+//     }
+// }
+
+// updateDashboardTime();
+
+
+
+// // Run this as soon as the page loads
 // we want the user to be able to inter the tasks 
 // we wnat to display thoes tasks in ui ->
 // the user should be able to delete the tasks from the plan
@@ -104,7 +559,6 @@ function startStudySession(subjectName, hourGoal) {
 
 function renderTaskCard(task) {
     const container = document.getElementById('task-container');
-    if (!container) return;
     const html = `
         <div class="card mb-3 shadow-sm border-0 task-card" 
              id="task-${task.id}" 
@@ -282,7 +736,6 @@ const navLinks = document.querySelectorAll('.sidebar .nav-link');
 //render function for the all tasks veiw
 function renderFullTaskList() {
     const container = document.getElementById('full-task-list');
-    if (!container) return;
     const tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
     container.innerHTML = ''; 
 
