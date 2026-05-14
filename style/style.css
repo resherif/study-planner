@@ -185,7 +185,7 @@ body {
     background: transparent !important; 
 }
 
-* The 'Finished' card style */
+
 .subject-card.is-finished {
     border: 2px solid #D2691E !important; /* Caramel border */
     background-color: #2b1b17 !important; /* Dark Mocha background */
